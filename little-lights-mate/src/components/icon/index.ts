@@ -1,1 +1,1 @@
-export * from "./Textlcon";
+export * from "./TextIcon";
