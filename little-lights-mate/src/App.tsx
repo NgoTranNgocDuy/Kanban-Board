@@ -1,5 +1,5 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
@@ -10,7 +10,7 @@ import routerProvider, {
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 
-import { App as AntdApp, ConfigProvider } from "antd";
+import { App as AntdApp, ConfigProvider, Button, theme as antdTheme } from "antd";
 
 import { Layout } from "@/components";
 import { resources } from "@/config/resources";
@@ -27,12 +27,34 @@ import {
 } from "@/routes";
 
 import "@refinedev/antd/dist/reset.css";
+import "./styles.css"
 
 const App = () => {
+  const [theme, setTheme] = useState("light");
+  
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   return (
     <BrowserRouter>
-      <ConfigProvider theme={RefineThemes.Blue}>
+      <ConfigProvider
+        theme={{
+          algorithm: theme === "dark" ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
+          token: {
+            colorPrimary: "#1890ff",
+            borderRadius: 4,
+          },
+        }}
+      >
         <AntdApp>
+          <Button onClick={toggleTheme}>
+            Switch to {theme === "light" ? "Dark" : "Light"} Mode
+          </Button>
           <DevtoolsProvider>
             <Refine
               routerProvider={routerProvider}

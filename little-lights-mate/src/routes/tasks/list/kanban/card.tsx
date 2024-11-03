@@ -53,8 +53,7 @@ export const ProjectCard = ({
       {
         label: "View card",
         key: "1",
-        // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
-        icon: <EyeOutlined />,
+        icon: <EyeOutlined style={{ color: "#40a9ff" }} />, // Light blue for dark mode
         onClick: () => {
           edit("tasks", id, "replace");
         },
@@ -63,8 +62,7 @@ export const ProjectCard = ({
         danger: true,
         label: "Delete card",
         key: "2",
-        // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
-        icon: <DeleteOutlined />,
+        icon: <DeleteOutlined style={{ color: "#ff4d4f" }} />, // Soft red for delete
         onClick: () => {
           mutate({
             resource: "tasks",
@@ -96,10 +94,14 @@ export const ProjectCard = ({
       theme={{
         components: {
           Tag: {
-            colorText: token.colorTextSecondary,
+            colorText: "#8a9aa9", // Lighter gray for better contrast
+            colorBgContainer: "rgba(138, 154, 169, 0.15)",
           },
           Card: {
-            headerBg: "transparent",
+            colorBgContainer: "#1c1f24", // Dark gray background for card
+            borderRadius: 8, // Rounded corners
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.5)", // Soft shadow
+            colorText: "#ffffff", // White text for readability
           },
         },
       }}
@@ -129,7 +131,6 @@ export const ProjectCard = ({
               type="text"
               shape="circle"
               icon={
-                // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                 <MoreOutlined
                   style={{
                     transform: "rotate(90deg)",
@@ -162,7 +163,6 @@ export const ProjectCard = ({
           {dueDateOptions && (
             <Tag
               icon={
-                // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
                 <ClockCircleOutlined
                   style={{
                     fontSize: "12px",

@@ -1,0 +1,65 @@
+/* Define root variables for light and dark themes */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --card-background-color: #f0f2f5;
+  --transition-speed: 0.8s;
+}
+
+[data-theme="dark"] {
+  --background-color: #1f1f1f;
+  --text-color: #e4e4e4;
+  --card-background-color: #333333;
+}
+
+/* Transition effect on the page container */
+body, .page-container {
+  position: relative;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  overflow: hidden; /* To prevent scrollbars during transition */
+}
+
+/* Overlay for left-to-right color transition */
+body::before, .page-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, var(--background-color) 0%, var(--card-background-color) 100%);
+  opacity: 0;
+  z-index: 0;
+  transition: opacity var(--transition-speed) ease;
+}
+
+/* Apply transition when theme changes */
+[data-theme="dark"]::before, [data-theme="light"]::before {
+  opacity: 1;
+  animation: slideLeftToRight var(--transition-speed) ease forwards;
+}
+
+/* Move the gradient from left to right */
+@keyframes slideLeftToRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Styling for main content to ensure it overlays the gradient */
+body * , .page-container * {
+  position: relative;
+  z-index: 1;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* Apply background and text color to Ant Design components with smooth transitions */
+.ant-layout, .ant-layout-content, .ant-card {
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
